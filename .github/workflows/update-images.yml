@@ -16,12 +16,17 @@ jobs:
       - name: Generate images.json
         run: |
           echo "[" > images.json
+          first=true
           for f in images/*; do
             if [ -f "$f" ]; then
-              echo "  \"$(basename "$f")\"," >> images.json
+              if [ "$first" = true ]; then
+                first=false
+              else
+                echo "," >> images.json
+              fi
+              echo "  \"$(basename "$f")\"" >> images.json
             fi
           done
-          sed -i '$ s/,$//' images.json
           echo "]" >> images.json
 
       - name: Commit and push changes
