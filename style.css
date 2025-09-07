@@ -1,0 +1,27 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: black; /* dark mode background */
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  height: 100%;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+
+.carousel img {
+  height: 100vh;
+  width: 100vw;
+  object-fit: cover; /* fills the screen without distortion */
+  flex-shrink: 0;
+}
+
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
