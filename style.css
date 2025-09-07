@@ -1,27 +1,37 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
-  background: black; /* dark mode background */
+  height: 100%;
+  background: black;
   overflow: hidden;
+}
+
+.carousel-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
 .carousel {
   display: flex;
-  height: 100%;
-  width: max-content;
-  animation: scroll 30s linear infinite;
+  flex-wrap: nowrap;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.carousel img {
+.slide {
+  min-width: 100vw;
   height: 100vh;
-  width: 100vw;
-  object-fit: cover; /* fills the screen without distortion */
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
