@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -16,7 +16,11 @@ jobs:
       - name: Generate images.json
         run: |
           echo "[" > images.json
-          ls images | sed 's/^/  "/;s/$/",/' >> images.json
+          for f in images/*; do
+            if [ -f "$f" ]; then
+              echo "  \"$(basename "$f")\"," >> images.json
+            fi
+          done
           sed -i '$ s/,$//' images.json
           echo "]" >> images.json
 
