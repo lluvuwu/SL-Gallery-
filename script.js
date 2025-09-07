@@ -4,8 +4,8 @@ let current = 0;
 const intervalTime = 5000; // 5 seconds per slide
 
 // GitHub repository info
-const username = "<your-username>";
-const repo = "<your-repo>";
+const username = "<lluvuwu>";
+const repo = "<SL-Gallery>";
 const folder = "images"; // folder name containing images
 
 // GitHub API URL to list files in folder
