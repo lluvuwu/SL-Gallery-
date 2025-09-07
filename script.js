@@ -3,28 +3,41 @@ let slides = [];
 let current = 0;
 const intervalTime = 5000; // 5 seconds per slide
 
-// Replace this URL with your own images.json raw URL from GitHub
-const jsonURL = 'https://raw.githubusercontent.com/<your-username>/<repo>/main/images.json';
+// GitHub repository info
+const username = "<your-username>";
+const repo = "<your-repo>";
+const folder = "images"; // folder name containing images
 
-fetch(jsonURL)
+// GitHub API URL to list files in folder
+const apiURL = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+
+fetch(apiURL)
   .then(res => res.json())
-  .then(images => {
-    // Create <img> elements dynamically
-    images.forEach((src, index) => {
+  .then(files => {
+    // Filter only image files
+    const imageFiles = files.filter(file =>
+      file.name.match(/\.(jpg|jpeg|png|gif)$/i)
+    );
+
+    if(imageFiles.length === 0) throw new Error("No image files found in folder.");
+
+    // Create <img> elements
+    imageFiles.forEach((file, index) => {
       const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Slide ${index + 1}`;
+      // Use raw.githubusercontent URL to access image directly
+      img.src = file.download_url;
+      img.alt = file.name;
       if(index === 0) img.style.opacity = 1; // show first image
       carousel.appendChild(img);
     });
 
     slides = carousel.querySelectorAll('img');
 
-    // Start automatic slideshow
+    // Start slideshow
     setInterval(() => {
       slides[current].style.opacity = 0;
       current = (current + 1) % slides.length;
       slides[current].style.opacity = 1;
     }, intervalTime);
   })
-  .catch(err => console.error('Failed to load images.json:', err));
+  .catch(err => console.error('Failed to load images from GitHub folder:', err));
