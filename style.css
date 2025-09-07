@@ -1,25 +1,37 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #000;
+const carousel = document.getElementById('carousel');
+let slides = [];
+let current = 0;
+const intervalTime = 5000; // 5 seconds per slide
+
+// Configuration
+const username = "lluvuwu";
+const repo = "SL-Gallery";
+const folder = "images";
+const totalImages = 5; // total number of images in the folder
+const filePrefix = "image"; // e.g., image1.jpg, image2.jpg
+const fileExtension = "jpg"; // file type
+
+// Generate raw URLs automatically
+const imageUrls = [];
+for(let i = 1; i <= totalImages; i++){
+  const url = `https://raw.githubusercontent.com/${username}/${repo}/main/${folder}/${filePrefix}${i}.${fileExtension}`;
+  imageUrls.push(url);
 }
 
-.carousel {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
+// Create <img> elements
+imageUrls.forEach((src, index) => {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = `Slide ${index + 1}`;
+  if(index === 0) img.style.opacity = 1; // show first image
+  carousel.appendChild(img);
+});
 
-.carousel img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* fills the screen */
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
+slides = carousel.querySelectorAll('img');
+
+// Start automatic slideshow
+setInterval(() => {
+  slides[current].style.opacity = 0;
+  current = (current + 1) % slides.length;
+  slides[current].style.opacity = 1;
+}, intervalTime);
