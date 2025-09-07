@@ -35,26 +35,31 @@
   </style>
 </head>
 <body>
-  <div class="slideshow">
-    <!-- 👇 Paste your actual filenames here -->
-    <img src="Slut for BBC v7 (1).jpg"">
-    <img src="Slut for BBC v7 (2).jpg"">
-    <img src="Slut for BBC v7 (3).jpg"">
-    <img src="Slut for BBC v7 (4).jpg"">
-    <!-- keep adding more <img> lines for all your images -->
-  </div>
+  <div class="slideshow"></div>
 
   <script>
-    const slides = document.querySelectorAll('.slideshow img');
-    let current = 0;
+    fetch("images.json")
+      .then(response => response.json())
+      .then(imageList => {
+        const slideshow = document.querySelector('.slideshow');
+        imageList.forEach((src, index) => {
+          const img = document.createElement("img");
+          img.src = "images/" + src;
+          if (index === 0) img.classList.add("active");
+          slideshow.appendChild(img);
+        });
 
-    function showNextImage() {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }
+        const slides = document.querySelectorAll(".slideshow img");
+        let current = 0;
 
-    setInterval(showNextImage, 10000); // change every 10 seconds
+        function showNextImage() {
+          slides[current].classList.remove("active");
+          current = (current + 1) % slides.length;
+          slides[current].classList.add("active");
+        }
+
+        setInterval(showNextImage, 10000);
+      });
   </script>
 </body>
 </html>
